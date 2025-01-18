@@ -9,6 +9,8 @@
     type="image/png"
   />
  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,
+  maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
 	{% block styles %}{% endblock %}
   <script>
     window.frappe = {};
@@ -28,7 +30,7 @@
     {% block base_scripts %}
       <!-- js should be loaded in body! -->
       <script>
-        frappe.boot = {{ boot }}
+        frappe.boot = {{ boot | json }}
         // for backward compatibility of some libs
         frappe.sys_defaults = frappe.boot.sysdefaults;
       </script>

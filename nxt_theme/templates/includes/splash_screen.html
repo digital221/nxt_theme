@@ -1,4 +1,5 @@
 <div class="centered splash hidden">
-	<img src="{{ splash_image or "/assets/frappe/images/frappe-framework-logo.png" }}"
+	{% set theme_settings = frappe.get_doc("Theme Settings" , "Theme Settings")%}
+	<img src="{{ theme_settings.splash_image or "/assets/frappe/images/frappe-framework-logo.png" }}"
 		style="max-width: 100px; max-height: 100px;">
 </div>

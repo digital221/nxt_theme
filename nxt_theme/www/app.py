@@ -51,6 +51,8 @@ def get_context(context):
 	if frappe.get_system_settings("enable_telemetry") and os.getenv("FRAPPE_SENTRY_DSN"):
 		include_js.append("sentry.bundle.js")
 
+	theme_settings = frappe.get_doc("Theme Settings", "Theme Settings")
+
 	context.update(
 		{
 			"no_cache": 1,
@@ -73,8 +75,19 @@ def get_context(context):
 			"avatar": """""",
 			"navbar_settings": frappe.get_doc("Navbar Settings"),
 			"logo": frappe.get_website_settings("app_logo") or frappe.get_hooks("app_logo_url")[-1] or "/assets/nxt_theme/images/shape.svg",
-			"company": frappe.db.get_default("Company") or "Unify 360"
+			"company": frappe.db.get_default("Company") or "NexTash",
+			"primary": theme_settings.get("primary_color") or "#060960",
+			"secondary": theme_settings.get("secondary_color") or "#5EB182",
+			"color_theme_1": hex_to_rgb(theme_settings.get("primary_color") or "#060960"),
+			"color_theme_2": hex_to_rgb(theme_settings.get("secondary_color") or "#5EB182"),
+			"skin_name": theme_settings.get("skin") or "razor",
 		}
 	)
 
 	return context
+
+def hex_to_rgb(hex_code):
+    hex_code = hex_code.lstrip('#')
+    
+    rgb = tuple(int(hex_code[i:i+2], 16) for i in (0, 2, 4))
+    return f"{rgb[0]} {rgb[1]} {rgb[2]}"

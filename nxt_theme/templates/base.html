@@ -33,7 +33,15 @@
 			<style>{{ colocated_css }}</style>
 		{%- endif %}
 	{%- endblock -%}
-
+	
+	{% if boot.lang == "eo" %}
+	<script type="text/javascript">
+		var _jipt = [];
+		_jipt.push(['project', 'frappe']);
+	</script>
+	<script type="text/javascript" src="https://cdn.crowdin.com/jipt/jipt.js"></script>
+	{% endif %}
+	
 	<script>
 		window.frappe = {};
 		frappe.ready_events = [];
@@ -71,13 +79,19 @@
 	{% endblock %}
 
 	{%- block footer -%}
-		
+		{{ web_block(
+			footer_template or 'Standard Footer',
+			values=_context_dict,
+			add_container=0,
+			add_top_padding=0,
+			add_bottom_padding=0
+		) }}
 	{%- endblock -%}
 
 	{% block base_scripts %}
 	<!-- js should be loaded in body! -->
 	<script>
-		frappe.boot = {{ boot }}
+		frappe.boot = {{ boot | json }}
 		// for backward compatibility of some libs
 		frappe.sys_defaults = frappe.boot.sysdefaults;
 	</script>
